@@ -31617,6 +31617,14 @@ var init = function () {
     for (i = 0; i < nodes.length; i++) {
         var element = nodes[i];
 
+        var id = 'mermaidChart' + nextId++;
+        
+        // check if visible
+        if (! (element.offsetWidth > 0 && element.offsetHeight > 0)) {
+            console.log("init skip invisible mermaid i:" + i + "id:" + id);
+            continue;
+        }
+
         // Check if previously processed
         if(!element.getAttribute("data-processed")) {
             element.setAttribute("data-processed", true);
@@ -31624,11 +31632,14 @@ var init = function () {
             continue;
         }
 
-        var id = 'mermaidChart' + nextId++;
+        // do it
+        console.log("init mermaid i:" + i + "id:" + id);
 
         var txt = element.innerHTML;
         txt = txt.replace(/>/g,'&gt;');
         txt = txt.replace(/</g,'&lt;');
+        txt = txt.replace(/\n\.\n/g,'\n');
+        txt = txt.replace(/\n\n/g,'\n');
         txt = he.decode(txt).trim();
 
 
